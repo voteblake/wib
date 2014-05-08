@@ -3,10 +3,10 @@
 {% block page_content %}
 <div class="container">
     <div class="page-header">
-        <h1>Blake Blog</h1>
+        <h1>Blake is in: Madison, WI USA</h1>
     </div>
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-6">
             {% for post in posts %}
                 <div>
                     <h2><a href="{{ post.path }}">
@@ -15,6 +15,10 @@
                     <small>{{ post.date }}</small>
                 </div>
             {% endfor %}
+        </div>
+        <div class="col-sm-6">
+            <a class="twitter-timeline" href="https://twitter.com/voteblake" data-widget-id="464536426982277120">Tweets by @voteblake</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
         </div>
     </div>
 </div>
