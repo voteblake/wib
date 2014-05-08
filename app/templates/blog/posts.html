@@ -1,9 +1,6 @@
 {% for post in posts %}
-    <a href="{{ url_for('post') }}">
+    <a href="{{ post.path }}">
         {{ post.title }}
     </a>
     <small>{{ post.date }}</small>
 {% endfor %}
-
-
- <h1>Test</h1>

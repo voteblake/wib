@@ -14,4 +14,11 @@ def create_app(config_name):
     from .blog import blog as blog_blueprint
     app.register_blueprint(blog_blueprint)
 
+    import logging
+    from logging import FileHandler
+
+    file_handler = FileHandler('error.log')
+    file_handler.setLevel(logging.WARNING)
+    app.logger.addHandler(file_handler)
+
     return app
