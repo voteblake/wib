@@ -1,8 +1,7 @@
-import sys
 from flask import Flask
 from config import config
 
-from flask_flatpages import FlatPages, pygments_style_defs
+from flask_flatpages import FlatPages
 
 flatpages = FlatPages()
 
@@ -16,4 +15,3 @@ def create_app(config_name):
     app.register_blueprint(blog_blueprint)
 
     return app
-
