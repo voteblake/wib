@@ -1,3 +1,9 @@
-{{ post.title }}
-{{ post.date }}
-{{ post.html|safe }}
+{% extends "base.html" %}
+
+{% block page_content %}
+<article>
+    {{ post.title }}
+    {{ post.date }}
+    {{ post.html|safe }}
+</article>
+{% endblock %}

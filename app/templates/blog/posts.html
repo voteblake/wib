@@ -1,6 +1,21 @@
-{% for post in posts %}
-    <a href="{{ post.path }}">
-        {{ post.title }}
-    </a>
-    <small>{{ post.date }}</small>
-{% endfor %}
+{% extends "base.html" %}
+
+{% block page_content %}
+<div class="container">
+    <div class="page-header">
+        <h1>Blake Blog</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            {% for post in posts %}
+                <div>
+                    <a href="{{ post.path }}">
+                        {{ post.title }}
+                    </a>
+                    <small>{{ post.date }}</small>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
