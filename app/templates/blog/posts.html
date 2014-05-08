@@ -9,9 +9,9 @@
         <div class="col-sm-8">
             {% for post in posts %}
                 <div>
-                    <a href="{{ post.path }}">
+                    <h2><a href="{{ post.path }}">
                         {{ post.title }}
-                    </a>
+                    </a></h2>
                     <small>{{ post.date }}</small>
                 </div>
             {% endfor %}
