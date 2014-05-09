@@ -12,10 +12,10 @@
                     <div class="panel-heading">
                         <h2 class="panel-title"><a href="{{ post.path }}">
                             {{ post.title }}
-                        </a></h2>
+                        </a><small>{{ post.date }}</small></h2>
                     </div>
                     <div class="panel-body">
-                        <small>{{ post.date }}</small>
+                        <p>{{ post.short }}</p>
                     </div>
                 </div>
             {% endfor %}

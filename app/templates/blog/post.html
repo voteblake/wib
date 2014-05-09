@@ -1,9 +1,33 @@
 {% extends "base.html" %}
 
+{% block navbar %}
+<div class="container">
+  <nav class="navbar navbar-default" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Home</a>
+      </div>
+      {#
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="{{ url_for('blog.posts') }}">Blog</a></li>
+      </div>
+      #}
+  </nav>
+</div>
+{% endblock %}
+
 {% block page_content %}
-<div>
-    {{ post.title }}
-    {{ post.date }}
+<div class="container">
+  <div class="page-header">
+    <h1>{{ post.title }} <small>{{ post.date }}</small></h1>
+  </div>
     {{ post.html|safe }}
 </div>
 {% endblock %}
