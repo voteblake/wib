@@ -1,14 +1,33 @@
+import os
 from flask import render_template, url_for
-from . import blog
+import twitter, requests
 
+from . import blog
 from app import pages
+
+def get_latest_location():
+    api = twitter.Api(consumer_key=os.environ.get('TCK'),
+                      consumer_secret=os.environ.get('TCS'),
+                      access_token_key=os.environ.get('TATK'),
+                      access_token_secret=os.environ.get('TATS'))
+    statuses = api.GetUserTimeline('VoteBlake')
+    locations = [s.coordinates for s in statuses if s.coordinates and s.retweeted==False]
+    long, lat = locations[0]['coordinates']
+    
+    url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + str(lat) + ',' + str(long) + '&sensor=false&result_type=locality|administrative_area_level_1|country&key=' + os.environ.get('GKEY')
+    r = requests.get(url)
+
+    return r.json()['results'][0]['formatted_address']
 
 @blog.route('/')
 @blog.route('/posts')
 def posts():
     posts = (p for p in pages)
     latest = sorted(posts, reverse=True, key=lambda p: p.meta['date'])
-    return render_template('blog/posts.html', posts=latest)
+
+    location = get_latest_location()
+
+    return render_template('blog/posts.html', posts=latest, location=location)
 
 @blog.route('/<path:path>/')
 def post(path):
