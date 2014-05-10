@@ -14,10 +14,17 @@ def get_latest_location():
     locations = [s.coordinates for s in statuses if s.coordinates and s.retweeted==False]
     long, lat = locations[0]['coordinates']
     
-    url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + str(lat) + ',' + str(long) + '&sensor=false&result_type=locality|administrative_area_level_1|country&key=' + os.environ.get('GKEY')
+    location = [lat, long]
+
+    return location 
+
+
+def format_location(location):
+    url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + str(location[0]) + ',' + str(location[1]) + '&sensor=false&result_type=locality|administrative_area_level_1|country&key=' + os.environ.get('GKEY')
     r = requests.get(url)
 
     return r.json()['results'][0]['formatted_address']
+
 
 @blog.route('/')
 @blog.route('/posts')
@@ -27,7 +34,7 @@ def posts():
 
     location = get_latest_location()
 
-    return render_template('blog/posts.html', posts=latest, location=location)
+    return render_template('blog/posts.html', posts=latest, location=format_location(location), lat=location[0], long=location[1])
 
 @blog.route('/<path:path>/')
 def post(path):
