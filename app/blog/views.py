@@ -1,25 +1,34 @@
+""" Module containing Flask routes and view logic. """
 import os
-from flask import render_template, url_for
+from flask import render_template
 import twitter, requests
 
 from . import blog
 from app import pages
 
 def get_latest_location():
+    """
+    Gets latest user location via a call to the Twitter API
+    Finds most recent tweet that contains a geocode and is not a retweet
+    Returns the a list [lat, long] of that location
+    """
     api = twitter.Api(consumer_key=os.environ.get('TCK'),
                       consumer_secret=os.environ.get('TCS'),
                       access_token_key=os.environ.get('TATK'),
                       access_token_secret=os.environ.get('TATS'))
     statuses = api.GetUserTimeline('VoteBlake')
-    locations = [s.coordinates for s in statuses if s.coordinates and s.retweeted==False]
+    locations = [s.coordinates for s in statuses if s.coordinates and s.retweeted == False]
     long, lat = locations[0]['coordinates']
-    
+
     location = [lat, long]
 
-    return location 
+    return location
 
 
 def format_location(location):
+    """
+    Formats a [lat, long] list in to a Google maps API formatted address
+    """
     url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + str(location[0]) + ',' + str(location[1]) + '&sensor=false&result_type=locality|administrative_area_level_1|country&key=' + os.environ.get('GKEY')
     r = requests.get(url)
 
@@ -29,8 +38,9 @@ def format_location(location):
 @blog.route('/')
 @blog.route('/posts')
 def posts():
-    posts = (p for p in pages)
-    latest = sorted(posts, reverse=True, key=lambda p: p.meta['date'])
+    """ Index route of the blueprint """
+    blog_posts = (p for p in pages)
+    latest = sorted(blog_posts, reverse=True, key=lambda p: p.meta['date'])
 
     location = get_latest_location()
 
@@ -38,5 +48,6 @@ def posts():
 
 @blog.route('/<path:path>/')
 def post(path):
-    post = pages.get_or_404(path)
-    return render_template('blog/post.html', post=post)
+    """ Individual blog post page """
+    blog_post = pages.get_or_404(path)
+    return render_template('blog/post.html', post=blog_post)

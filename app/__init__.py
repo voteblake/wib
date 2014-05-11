@@ -8,6 +8,10 @@ pages = FlatPages()
 bootstrap = Bootstrap()
 
 def create_app(config_name):
+    """
+    Wrapper function to initialize dependencies and return
+    callable Flask app object to WSGI server.
+    """
     app = Flask(__name__)
     app.config.from_object(config[config_name])
 
