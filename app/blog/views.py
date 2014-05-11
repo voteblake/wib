@@ -23,7 +23,7 @@ def format_location(location):
     url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + str(location[0]) + ',' + str(location[1]) + '&sensor=false&result_type=locality|administrative_area_level_1|country&key=' + os.environ.get('GKEY')
     r = requests.get(url)
 
-    return r.json()['results'][0]['formatted_address']
+    return ''.join([c for c in r.json()['results'][0]['formatted_address'] if not c.isdigit()])
 
 
 @blog.route('/')
